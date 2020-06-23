@@ -8,10 +8,10 @@ class Server:
 
     def __init__(self):
         init(autoreset=True)
-        server = 'password.database.windows.net'
-        database = 'Password'
-        dusername = 'luuvanduc'
-        dpassword = 'Poiu.1234'
+        server = '******.database.windows.net'
+        database = '*****'
+        dusername = '******'
+        dpassword = '******'
         driver_names = [x for x in pyodbc.drivers() if x.endswith(' for SQL Server')]
         driver= driver_names[0]
         self.cnxn = pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+dusername+';PWD='+ dpassword)

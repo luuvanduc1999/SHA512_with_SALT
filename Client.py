@@ -1,7 +1,13 @@
-from Server import Server
+from Server import *
 import os
 from colorama import Fore, Back, Style
 from colorama import init
+import random
+from SHA512 import *
+
+def randomString(stringLength=32):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
 
 def menu():
 
@@ -21,7 +27,11 @@ def menu():
             name=input("Ten cua ban: ")
             username = input("Nhap username: ")
             password = input("Nhap password: ")
-            server.add_user(username, password, name )
+
+            salt = randomString(32)
+            password_digest=SHA512(salt[0:16]+password+salt[16:32])
+
+            server.add_user(username, password_digest, name, salt )
 
 
         if menu_choice is "2":
@@ -29,7 +39,12 @@ def menu():
             print(Fore.GREEN+"---------XAC THUC-------")
             username = input("Nhap username: ")
             password = input("Nhap password: ")
-            server.authenticate(username, password)
+
+            salt = server.getSalt(username)
+            
+            if (salt!=""):
+                password_digest=SHA512(salt[0:16]+password+salt[16:32])
+                server.authenticate(username, password_digest)
 
         if menu_choice is "3":
             keep_going = False
